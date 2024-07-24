@@ -172,7 +172,7 @@ def discover_delimiter(filepath, encoding):
         linecount = 0
         samplelines = []
 
-        with codecs.open(filepath,'rU', encoding=encoding) as file:
+        with codecs.open(filepath,'r', encoding=encoding) as file:
             csvreader = csv.reader(file,delimiter= delim)
             # print('\n-------------------\n')
             line = next(csvreader, None)
@@ -363,7 +363,7 @@ def split_metadata_data(csv_tuples, offset, sample_lines_limit, delimiter):
     return result
 
 def discard_file(filepath, encoding):
-    with codecs.open(filepath,'rU', encoding=encoding) as fp:
+    with codecs.open(filepath,'r', encoding=encoding) as fp:
         firstline = fp.readline()
         while len(firstline.strip())==0:
             firstline = fp.readline()
@@ -2039,7 +2039,7 @@ def process_file(filepath):
     
     max_batch= 200
     lineindex=0
-    with codecs.open(filepath,'rU', encoding=encoding) as f:        
+    with codecs.open(filepath,'r', encoding=encoding) as f:        
         chunk = f.read(min(size_bytes,100000))
         if chunk:
             for line in csv.reader(chunk.split("\n"), quotechar='"', delimiter= delimiter, skipinitialspace=True):
@@ -2064,7 +2064,7 @@ def process_file(filepath):
 
     # print('delimiter= '+delimiter)
     if singletable == False:        
-        with codecs.open(filepath,'rU', encoding=encoding) as f:
+        with codecs.open(filepath,'r', encoding=encoding) as f:
             csv_reader = csv.reader(f, delimiter= delimiter, skipinitialspace=True, quotechar='"')
             csv_tuples = list(csv_reader)
         num_rows, file_blank_rowindex = file_info(csv_tuples)

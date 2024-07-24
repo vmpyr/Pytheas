@@ -2189,7 +2189,7 @@ def sample_file(filepath,max_batch= 100):
         
         lineindex=-1
    
-        with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:        
+        with codecs.open(filepath,'r', encoding=discovered_encoding) as f:        
             chunk = f.read(min(size_bytes,100000))
             if chunk:
                 # google_detected_lang = detect_lang(chunk)
@@ -2245,7 +2245,7 @@ def discover_delimiter(filepath, encoding):
         linecount = 0
         samplelines = []
 
-        with codecs.open(filepath,'rU', encoding=encoding) as file:
+        with codecs.open(filepath,'r', encoding=encoding) as file:
             csvreader = csv.reader(file,delimiter= delim)
             # print('\n-------------------\n')
             line = next(csvreader, None)
@@ -2373,7 +2373,7 @@ def detect_encoding(filepath):
     return result
 
 def discard_file(filepath, encoding):
-    with codecs.open(filepath,'rU', encoding=encoding) as fp:
+    with codecs.open(filepath,'r', encoding=encoding) as fp:
         firstline = fp.readline()
         while len(firstline.strip())==0:
             firstline = fp.readline()

@@ -98,7 +98,7 @@ def process_file_worker(t):
         all_csv_tuples = []
         if failure==None: 
             try:
-                with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:        
+                with codecs.open(filepath,'r', encoding=discovered_encoding) as f:        
                     chunk = f.read()
                     if chunk:
                         for line in csv.reader(chunk.split("\n"), quotechar='"', delimiter= discovered_delimiter, skipinitialspace=True):
@@ -1172,7 +1172,7 @@ class PYTHEAS:
             num_lines_processed = 0
             all_csv_tuples = []
             if failure==None: 
-                with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:        
+                with codecs.open(filepath,'r', encoding=discovered_encoding) as f:        
                     chunk = f.read()
                     if chunk:
                         for line in csv.reader(chunk.split("\n"), quotechar='"', delimiter= discovered_delimiter, skipinitialspace=True):
@@ -2585,8 +2585,9 @@ def predict_last_data_line_top_down(dataframe, predicted_fdl, data_confidence, n
                 
             # for the first 3 lines rely on the classification from first data line search.
             if line_counter<=3 or line_label in aggregation_rows:# and line_predictions[line_label]['label']=='DATA':
-                data = pd.DataFrame([line], 
-                                    index=[line_label]).append(data)
+                data = pd.concat([pd.DataFrame([line], index=[line_label]), data], ignore_index=True)
+                # data = pd.DataFrame([line], 
+                #                     index=[line_label]).append(data)
                 certain_data_widths.append(non_empty_values(line))
                 predicted_ldl = line_label
                 data_conf=1
@@ -2694,8 +2695,9 @@ def predict_last_data_line_top_down(dataframe, predicted_fdl, data_confidence, n
 
             elif IS_DATA==True:
                 predicted_ldl = line_label
-                data = pd.DataFrame([line], 
-                    index=[line_label]).append(data)
+                data = pd.concat([pd.DataFrame([line], index=[line_label]), data], ignore_index=True)
+                # data = pd.DataFrame([line], 
+                #     index=[line_label]).append(data)
                 certain_data_widths.append(non_empty_values(line))                
 
             else:
@@ -3185,7 +3187,7 @@ def process_csv_worker(task):
         all_csv_tuples = []
         if failure==None:
             try:
-                with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:        
+                with codecs.open(filepath,'r', encoding=discovered_encoding) as f:        
                     chunk = f.read()
                     if chunk:
                         for line in csv.reader(chunk.split("\n"), quotechar='"', delimiter= discovered_delimiter, skipinitialspace=True):

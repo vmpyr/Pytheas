@@ -104,7 +104,7 @@ def discover_delimiter(filepath, encoding):
         linecount = 0
         samplelines = []
 
-        with codecs.open(filepath,'rU', encoding=encoding) as file:
+        with codecs.open(filepath,'r', encoding=encoding) as file:
             csvreader = csv.reader(file,delimiter= delim)
             # print('\n-------------------\n')
             line = next(csvreader, None)
@@ -203,7 +203,7 @@ def discover_delimiter(filepath, encoding):
         return delimiter
 
 def discard_file(filepath, encoding):
-    with codecs.open(filepath,'rU', encoding=encoding) as fp:
+    with codecs.open(filepath,'r', encoding=encoding) as fp:
         firstline = fp.readline()
         while len(firstline.strip())==0:
             firstline = fp.readline()
@@ -314,7 +314,8 @@ def merged_df(failure, all_csv_tuples):
  
     dataframe = pd.DataFrame()
     for df in dataframes:
-        dataframe = dataframe.append(df)
+        dataframe = pd.concat([dataframe, df], ignore_index=True)
+        # dataframe = dataframe.append(df)
 
     dataframe.reset_index(drop=True)
 
@@ -344,7 +345,7 @@ def get_dataframe(filepath, max_lines):
         if failure==None:
             try:
                 all_csv_tuples = []
-                with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:        
+                with codecs.open(filepath,'r', encoding=discovered_encoding) as f:        
                     chunk = f.read()
                     if chunk:
                         for line in csv.reader(chunk.split("\n"), quotechar='"', delimiter= discovered_delimiter, skipinitialspace=True):
@@ -415,7 +416,7 @@ def sample_file(filepath, max_batch= 100):
         batch=[]         
         lineindex=-1
    
-        with codecs.open(filepath,'rU', encoding=discovered_encoding) as f:      
+        with codecs.open(filepath,'r', encoding=discovered_encoding) as f:      
             chunk = f.read(min(size_bytes,100000))
             if chunk:
                 # google_detected_lang = detect_lang(chunk)
