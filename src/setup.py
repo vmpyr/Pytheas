@@ -6,7 +6,7 @@ setup(
     description='CSV table annotation tool',
     author='Christina Christodoulakis',
     license='MIT',
-    install_requires=[ 'cchardet>=2.1.4',
+    install_requires=[ 'cchardet==2.2.0a2',
 			'dotmap',
                         'Unidecode>=1.1.1',
                         'pandas>=1.1.3',
